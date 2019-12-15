@@ -6,6 +6,7 @@ import Data exposing (..)
 accounts : List Account
 accounts =
     [ { name = "Credit Union", accountType = Cash, balance = 4000 }
+    , { name = "Savings", accountType = TaxDeferred, balance = 3000 }
     , { name = "Roth IRA", accountType = TaxDeferred, balance = 4000 }
     ]
 
@@ -59,13 +60,13 @@ actualIncomeData =
     ]
 
 
-data : UserData
-data =
+testModel : Model
+testModel =
     { id = "Financy Drew"
     , accounts = accounts
     , spendCategories = spendCategories
     , actualSpendData = actualSpendData
     , speculativeSpendData = []
-    , actualIncomeData = []
+    , actualIncomeData = actualIncomeData
     , speculativeIncomeData = []
     }

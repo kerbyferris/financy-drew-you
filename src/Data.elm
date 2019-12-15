@@ -1,14 +1,26 @@
 module Data exposing (..)
 
 
-type alias UserData =
+initialModel : Model
+initialModel =
+    { id = "Financy Drew"
+    , accounts = []
+    , spendCategories = []
+    , actualSpendData = []
+    , speculativeSpendData = []
+    , actualIncomeData = []
+    , speculativeIncomeData = []
+    }
+
+
+type alias Model =
     { id : String
     , accounts : List Account
     , spendCategories : List SpendCategory
     , actualSpendData : List SpendData
     , speculativeSpendData : List SpendData
-    , actualIncomeData : List SpendData
-    , speculativeIncomeData : List SpendData
+    , actualIncomeData : List IncomeData
+    , speculativeIncomeData : List IncomeData
     }
 
 
@@ -16,10 +28,21 @@ type AccountType
     = Cash
     | Credit
     | Taxable
+    | TaxFreeWithdrawable
     | TaxDeferred
     | TaxFree
-    | TaxFreeWithdrawable
     | Mortgage
+
+
+type Liquidity
+    = Liquid
+    | Illiquid
+
+
+type alias NetWorth =
+    { liquid : Int
+    , illiquid : Int
+    }
 
 
 type alias RealEstate =
@@ -84,10 +107,4 @@ type alias CategorySpendReport =
     , yearlyFromAverage : Int
     , savingsRequired : Int
     , monthsRequired : Int
-    }
-
-
-type alias NetWorth =
-    { liquidAmount : Int
-    , illiquidAmmount : Int
     }

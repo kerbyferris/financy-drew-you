@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser
+import Components exposing (viewAccounts, viewExpenseTotals, viewIncomeTotals, viewNetWorth)
 import Data exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,37 +9,44 @@ import List exposing (sum)
 import TestData exposing (..)
 
 
-getNetWorth : UserData -> Int
-getNetWorth data =
-    sum (List.map (\account -> account.balance) data.accounts)
+initialModel : Model
+initialModel =
+    { id = "Financy Drew"
+    , accounts = []
+    , spendCategories = []
+    , actualSpendData = []
+    , speculativeSpendData = []
+    , actualIncomeData = []
+    , speculativeIncomeData = []
+    }
 
 
-netWorth =
-    getNetWorth data
-
-
-getSpendByCategory : List SpendData -> String -> Int
-getSpendByCategory spendData category =
-    let
-        foo =
-            List.filter (\x -> x.category.name == category) spendData
-    in
-    sum (List.map (\x -> x.amount) foo)
-
-
-main : Html msg
-main =
+view : Model -> Html Msg
+view model =
     div []
-        [ h1 [] [ text data.id ]
-        , ul []
-            (List.map
-                (\x -> li [] [ text (x.name ++ ": " ++ String.fromInt x.balance) ])
-                data.accounts
-            )
-        , p [] [ text ("Net Worth: " ++ String.fromInt netWorth) ]
-        , ul []
-            (List.map
-                (\x -> li [] [ text (x.name ++ ": " ++ String.fromInt (getSpendByCategory data.actualSpendData x.name)) ])
-                data.spendCategories
-            )
+        [ h1 [] [ text model.id ]
+        , viewAccounts model
+        , viewNetWorth model
+        , viewExpenseTotals model
+        , viewIncomeTotals model
         ]
+
+
+type Msg
+    = SetName
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        SetName ->
+            { model | id = "New Name" }
+
+
+main : Program () Model Msg
+main =
+    Browser.sandbox
+        { init = testModel
+        , view = view
+        , update = update
+        }
