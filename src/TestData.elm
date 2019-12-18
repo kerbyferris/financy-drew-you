@@ -11,62 +11,27 @@ accounts =
     ]
 
 
-groceries : SpendCategory
-groceries =
-    { name = "Groceries", spendType = Necessary }
-
-
-rent : SpendCategory
-rent =
-    { name = "Rent", spendType = Necessary }
-
-
-restaurants : SpendCategory
-restaurants =
-    { name = "Restaurants", spendType = Discretionary }
-
-
-spendCategories : List SpendCategory
-spendCategories =
-    [ groceries
-    , { name = "Rent", spendType = Necessary }
-    , { name = "Restaurants", spendType = Discretionary }
+monthlyExpenses : List MonthlyExpense
+monthlyExpenses =
+    [ { category = "Groceries", expenseType = Necessary, amount = 430 }
+    , { category = "Rent", expenseType = Necessary, amount = 3000 }
+    , { category = "Restaurants", expenseType = Discretionary, amount = 300 }
     ]
 
 
-actualSpendData : List SpendData
-actualSpendData =
-    [ { yearMonth = 201912, amount = 430, category = groceries }
-    , { yearMonth = 201911, amount = 250, category = groceries }
-    , { yearMonth = 201912, amount = 3000, category = rent }
-    , { yearMonth = 201912, amount = 300, category = restaurants }
-    ]
-
-
-salary : IncomeCategory
-salary =
-    { name = "Salary", incomeType = Salary }
-
-
-sale : IncomeCategory
-sale =
-    { name = "Sold Something", incomeType = Supplemental }
-
-
-actualIncomeData : List IncomeData
-actualIncomeData =
-    [ { yearMonth = 201912, amount = 4000, category = salary }
-    , { yearMonth = 201911, amount = 2000, category = sale }
+monthlyIncome : List MonthlyIncome
+monthlyIncome =
+    [ { category = "Salary", incomeType = Salary, amount = 430 }
+    , { category = "Selling Things", incomeType = Supplemental, amount = 3000 }
     ]
 
 
 testModel : Model
 testModel =
     { id = "Financy Drew"
+    , newAccountName = ""
+    , newAccountBalance = ""
     , accounts = accounts
-    , spendCategories = spendCategories
-    , actualSpendData = actualSpendData
-    , speculativeSpendData = []
-    , actualIncomeData = actualIncomeData
-    , speculativeIncomeData = []
+    , monthlyExpenses = monthlyExpenses
+    , monthlyIncome = monthlyIncome
     }

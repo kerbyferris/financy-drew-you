@@ -62,35 +62,27 @@ viewAccounts : Model -> Html msg
 viewAccounts model =
     div [ id "accounts" ]
         [ h2 [] [ text "Accounts" ]
-        , ul []
-            (map
-                (\x -> li [] [ text (x.name ++ ": $" ++ String.fromInt x.balance) ])
-                model.accounts
-            )
+        , ul [] (map viewAccount model.accounts)
         ]
+
+
+viewAccount : Account -> Html msg
+viewAccount account =
+    li [] [ text (account.name ++ ": $" ++ String.fromInt account.balance) ]
 
 
 
 -- EXPENSES
 
 
-getSpendByCategory : List SpendData -> String -> Int
-getSpendByCategory spendData category =
-    let
-        data =
-            List.filter (\x -> x.category.name == category) spendData
-    in
-    sum (List.map .amount data)
-
-
-viewExpenseTotals : Model -> Html msg
-viewExpenseTotals model =
+viewMonthlyExpenses : Model -> Html msg
+viewMonthlyExpenses model =
     div [ id "expenses" ]
         [ h2 [] [ text "Expense Totals" ]
         , ul []
             (map
-                (\sc -> li [] [ text (sc.name ++ ": $" ++ String.fromInt (getSpendByCategory model.actualSpendData sc.name)) ])
-                model.spendCategories
+                (\m -> li [] [ text (m.category ++ ": $" ++ String.fromInt m.amount) ])
+                model.monthlyExpenses
             )
         ]
 
@@ -99,13 +91,13 @@ viewExpenseTotals model =
 -- INCOME
 
 
-viewIncomeTotals : Model -> Html msg
-viewIncomeTotals model =
+viewMonthlyIncome : Model -> Html msg
+viewMonthlyIncome model =
     div [ id "income" ]
         [ h2 [] [ text "Income Totals" ]
         , ul []
             (map
-                (\x -> li [] [ text (x.category.name ++ ": $" ++ String.fromInt x.amount) ])
-                model.actualIncomeData
+                (\x -> li [] [ text (x.category ++ ": $" ++ String.fromInt x.amount) ])
+                model.monthlyIncome
             )
         ]

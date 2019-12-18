@@ -1,26 +1,13 @@
 module Data exposing (..)
 
 
-initialModel : Model
-initialModel =
-    { id = "Financy Drew"
-    , accounts = []
-    , spendCategories = []
-    , actualSpendData = []
-    , speculativeSpendData = []
-    , actualIncomeData = []
-    , speculativeIncomeData = []
-    }
-
-
 type alias Model =
     { id : String
     , accounts : List Account
-    , spendCategories : List SpendCategory
-    , actualSpendData : List SpendData
-    , speculativeSpendData : List SpendData
-    , actualIncomeData : List IncomeData
-    , speculativeIncomeData : List IncomeData
+    , newAccountName : String
+    , newAccountBalance : String
+    , monthlyExpenses : List MonthlyExpense
+    , monthlyIncome : List MonthlyIncome
     }
 
 
@@ -32,6 +19,7 @@ type AccountType
     | TaxDeferred
     | TaxFree
     | Mortgage
+    | HomeEquity
 
 
 type Liquidity
@@ -45,12 +33,6 @@ type alias NetWorth =
     }
 
 
-type alias RealEstate =
-    { currentValue : Int
-    , outstanding : Int
-    }
-
-
 type alias Account =
     { name : String
     , accountType : AccountType
@@ -58,21 +40,15 @@ type alias Account =
     }
 
 
-type SpendType
+type ExpenseType
     = Necessary
     | Discretionary
 
 
-type alias SpendData =
-    { yearMonth : Int
+type alias MonthlyExpense =
+    { category : String
     , amount : Int
-    , category : SpendCategory
-    }
-
-
-type alias SpendCategory =
-    { name : String
-    , spendType : SpendType
+    , expenseType : ExpenseType
     }
 
 
@@ -81,15 +57,9 @@ type IncomeType
     | Supplemental
 
 
-type alias IncomeData =
-    { yearMonth : Int
+type alias MonthlyIncome =
+    { category : String
     , amount : Int
-    , category : IncomeCategory
-    }
-
-
-type alias IncomeCategory =
-    { name : String
     , incomeType : IncomeType
     }
 
@@ -97,14 +67,4 @@ type alias IncomeCategory =
 type alias StrategicAssumptions =
     { withdrawalRate : Float
     , growthRate : Float
-    }
-
-
-type alias CategorySpendReport =
-    { category : SpendCategory
-    , averageMonthlySpend : Int
-    , dailyFromAverage : Int
-    , yearlyFromAverage : Int
-    , savingsRequired : Int
-    , monthsRequired : Int
     }
