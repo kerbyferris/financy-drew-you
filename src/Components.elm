@@ -1,9 +1,9 @@
 module Components exposing (..)
 
 import Data exposing (..)
-import Html exposing (Html, div, h2, li, p, text, ul)
+import Html exposing (Html, div, h2, li, text, ul)
 import Html.Attributes exposing (id)
-import List exposing (filter, map, member, sum)
+import List exposing (filter, map, sum)
 
 
 
@@ -52,23 +52,6 @@ viewNetWorth model =
             , li [] [ text ("Illiquid: $" ++ String.fromInt (getNetWorth model).illiquid) ]
             ]
         ]
-
-
-
--- ACCOUNTS
-
-
-viewAccounts : Model -> Html msg
-viewAccounts model =
-    div [ id "accounts" ]
-        [ h2 [] [ text "Accounts" ]
-        , ul [] (map viewAccount model.accounts)
-        ]
-
-
-viewAccount : Account -> Html msg
-viewAccount account =
-    li [] [ text (account.name ++ ": $" ++ String.fromInt account.balance) ]
 
 
 

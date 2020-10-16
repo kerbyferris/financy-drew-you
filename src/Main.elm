@@ -1,12 +1,12 @@
 module Main exposing (..)
 
 import Browser
-import Components exposing (viewAccounts, viewMonthlyExpenses, viewMonthlyIncome, viewNetWorth)
+import Components exposing (viewMonthlyExpenses, viewMonthlyIncome, viewNetWorth)
 import Data exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (class, disabled, placeholder, type_, value)
-import Html.Events exposing (onInput, onSubmit)
-import List exposing (sum)
+import Html.Attributes exposing (class, disabled, id, placeholder, type_, value)
+import Html.Events exposing (onClick, onInput, onSubmit)
+import List exposing (filter, map)
 import Maybe exposing (withDefault)
 import TestData exposing (..)
 
@@ -50,10 +50,31 @@ view model =
         ]
 
 
+
+-- ACCOUNTS
+
+
+viewAccounts : Model -> Html Msg
+viewAccounts model =
+    div [ id "accounts" ]
+        [ h2 [] [ text "Accounts" ]
+        , ul [] (List.map viewAccount model.accounts)
+        ]
+
+
+viewAccount : Account -> Html Msg
+viewAccount account =
+    li []
+        [ text (account.name ++ ": $" ++ String.fromInt account.balance)
+        , span [ onClick (DeleteAccount account.name) ] [ text "[x]" ]
+        ]
+
+
 type Msg
     = SetNewAccountName String
     | SetNewAccountBalance String
-    | UpdateAccountBalance Account
+      -- | UpdateAccountBalance Account
+    | DeleteAccount String
     | SubmitNewAccount
 
 
@@ -66,8 +87,25 @@ update msg model =
         SetNewAccountBalance balance ->
             { model | newAccountBalance = balance }
 
-        UpdateAccountBalance balance ->
-            model
+        -- UpdateAccountBalance account balance ->
+        --     let
+        --         accounts =
+        --             map
+        --                 (\a ->
+        --                     if a.name /= account.name then
+        --                         account
+        --                     else
+        --                         { a | balance = balance }
+        --                 )
+        --                 model.accounts
+        --     in
+        --     { model | accounts = accounts }
+        DeleteAccount name ->
+            let
+                accounts =
+                    filter (\x -> x.name /= name) model.accounts
+            in
+            { model | accounts = accounts }
 
         SubmitNewAccount ->
             let
