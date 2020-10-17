@@ -1,3 +1,5 @@
+import { Interval } from "date-fns";
+
 export enum AssetType {
   Cash = "Cash",
   Checking = "Checking",
@@ -31,6 +33,17 @@ export interface Account {
   type: AccountType;
   name: string;
   balance: number;
+}
+
+export interface ExpenseTotal {
+  category: string;
+  period: Interval;
+  amount: number;
+}
+
+export interface IncomeTotal {
+  period: Interval;
+  amount: number;
 }
 
 export interface MarketAssumptions {

@@ -1,8 +1,16 @@
+import { pipe } from "fp-ts/lib/pipeable";
+import { keys } from "ramda";
+import * as E from "fp-ts/lib/Either";
+import * as A from "fp-ts/lib/Array";
+
 import { ynab } from "../repositories";
 import { accessToken } from "../config";
-import { filterByDateRange, partitionByAttribute } from "..";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as E from "fp-ts/lib/Either";
+import {
+  filterByDateRange,
+  partitionByAttribute,
+  sumTransactions,
+  transactionTotalsByCategory,
+} from "..";
 
 describe("the real world", () => {
   // it("should get categories", async () => {
@@ -23,8 +31,8 @@ describe("the real world", () => {
   //   console.log(res);
   // });
   it("should work in the real world", async () => {
-    const start = new Date("2020-10-01");
-    const end = new Date("2020-10-09");
+    const start = new Date("2020-10-14");
+    const end = new Date("2020-10-16");
 
     const systemUnderTest = ynab({ accessToken })();
     // const res = await systemUnderTest.getBudgets()();
@@ -33,6 +41,13 @@ describe("the real world", () => {
       await systemUnderTest.getTransactions({ sinceDate: start })(),
       E.map(filterByDateRange({ start, end })),
       E.map(partitionByAttribute("category_name")),
+      E.map(transactionTotalsByCategory),
+      // E.map((catsObj) => {
+      //   return pipe(
+      //     keys(catsObj)
+      //     // A.map((k) => sumTransactions(catsObj[k]))
+      //   );
+      // }),
       E.fold(
         (err) => {
           throw err;

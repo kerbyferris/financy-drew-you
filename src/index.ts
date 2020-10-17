@@ -11,6 +11,7 @@ import { displayAmount } from "./helpers";
 
 import { all } from "./helpers";
 import { access } from "fs/promises";
+import { keys } from "fp-ts/lib/ReadonlyRecord";
 export const ynabAccountAdapter = ({
   type,
   name,
@@ -147,16 +148,35 @@ export const filterByDateRange = (dateRange: DateRange) => (
   );
 };
 
-export const partitionByAttribute = (attr: string) => (transactions: any[]) => {
+interface TransactionsByCategory {
+  [categoryName: string]: TransactionSummary[];
+}
+
+export const partitionByAttribute = (attr: string) => (
+  transactions: any[]
+): TransactionsByCategory => {
   return pipe(
     transactions,
     A.reduce({} as any, (acc, t) => {
-      if (t[attr]) {
-        const existing = acc[attr] ? acc[attr] : [];
+      const attrValue = t[attr];
+      if (attrValue) {
+        console.log(attrValue);
+        const existing = acc[attrValue] ? acc[attrValue] : [];
+        console.log(existing);
         return { ...acc, [t[attr]]: [...existing, t] };
       } else {
         return acc;
       }
     })
+  );
+};
+
+export const transactionTotalsByCategory = (
+  transactionsByCategory: TransactionsByCategory
+) => {
+  return pipe(
+    keys(transactionsByCategory) as string[],
+    A.map((k) => ({ [k]: sumTransactions(transactionsByCategory[k]) })),
+    A.reduce({} as any, (acc, o) => ({ ...acc, ...o }))
   );
 };
