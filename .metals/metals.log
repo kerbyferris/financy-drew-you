@@ -1,0 +1,6 @@
+2020.10.26 14:09:42 INFO  started: Metals version 0.9.4 in workspace '/home/kerby/dev/financy-drew' for client vscode.
+2020.10.26 14:09:44 INFO  time: initialize in 1.97s
+2020.10.26 14:09:45 WARN  no build tool detected in workspace '/home/kerby/dev/financy-drew'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+Oct 26, 2020 2:55:30 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+2020.10.26 14:57:38 INFO  shutting down Metals
